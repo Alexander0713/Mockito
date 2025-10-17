@@ -1,9 +1,10 @@
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PosterManagerTest {
 
-    // Тест конструктора по умолчанию
+
     @Test
     public void testDefaultConstructor() {
         PosterManager manager = new PosterManager();
@@ -12,7 +13,7 @@ public class PosterManagerTest {
         assertEquals(0, manager.getMoviesCount());
     }
 
-    // Тест конструктора с кастомным лимитом
+
     @Test
     public void testCustomConstructor() {
         PosterManager manager = new PosterManager(7);
@@ -21,7 +22,7 @@ public class PosterManagerTest {
         assertEquals(0, manager.getMoviesCount());
     }
 
-    // Тест добавления одного фильма
+
     @Test
     public void testAddSingleMovie() {
         PosterManager manager = new PosterManager();
@@ -32,7 +33,7 @@ public class PosterManagerTest {
         assertEquals("Inception", allMovies[0]);
     }
 
-    // Тест добавления нескольких фильмов
+
     @Test
     public void testAddMultipleMovies() {
         PosterManager manager = new PosterManager();
@@ -47,7 +48,7 @@ public class PosterManagerTest {
         assertEquals("Interstellar", allMovies[2]);
     }
 
-    // Тест findAll для пустого менеджера
+
     @Test
     public void testFindAllWhenEmpty() {
         PosterManager manager = new PosterManager();
@@ -57,7 +58,7 @@ public class PosterManagerTest {
         assertEquals(0, result.length);
     }
 
-    // Тест findLast для пустого менеджера
+
     @Test
     public void testFindLastWhenEmpty() {
         PosterManager manager = new PosterManager();
@@ -67,7 +68,7 @@ public class PosterManagerTest {
         assertEquals(0, result.length);
     }
 
-    // Тест findLast когда фильмов меньше лимита
+
     @Test
     public void testFindLastWhenLessThanLimit() {
         PosterManager manager = new PosterManager(5);
@@ -81,7 +82,7 @@ public class PosterManagerTest {
         assertEquals("Movie1", result[1]);
     }
 
-    // Тест findLast когда фильмов равно лимиту
+
     @Test
     public void testFindLastWhenEqualToLimit() {
         PosterManager manager = new PosterManager(3);
@@ -97,7 +98,7 @@ public class PosterManagerTest {
         assertEquals("Movie1", result[2]);
     }
 
-    // Тест findLast когда фильмов больше лимита
+
     @Test
     public void testFindLastWhenMoreThanLimit() {
         PosterManager manager = new PosterManager(3);
@@ -115,7 +116,7 @@ public class PosterManagerTest {
         assertEquals("Movie3", result[2]);
     }
 
-    // Тест findLast с лимитом по умолчанию
+
     @Test
     public void testFindLastWithDefaultLimit() {
         PosterManager manager = new PosterManager(); // лимит = 5
@@ -135,7 +136,7 @@ public class PosterManagerTest {
         assertEquals("Movie3", result[4]);
     }
 
-    // Тест с большим количеством фильмов
+
     @Test
     public void testWithLargeNumberOfMovies() {
         PosterManager manager = new PosterManager(10);
