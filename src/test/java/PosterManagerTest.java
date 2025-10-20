@@ -1,38 +1,41 @@
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PosterManagerTest {
-
 
     @Test
     public void testDefaultConstructor() {
         PosterManager manager = new PosterManager();
 
-        assertEquals(5, manager.getLimit());
-        assertEquals(0, manager.getMoviesCount());
-    }
+        String[] expectedAll = {};
+        String[] expectedLast = {};
 
+        assertArrayEquals(expectedAll, manager.findAll());
+        assertArrayEquals(expectedLast, manager.findLast());
+    }
 
     @Test
     public void testCustomConstructor() {
         PosterManager manager = new PosterManager(7);
 
-        assertEquals(7, manager.getLimit());
-        assertEquals(0, manager.getMoviesCount());
-    }
+        String[] expectedAll = {};
+        String[] expectedLast = {};
 
+        assertArrayEquals(expectedAll, manager.findAll());
+        assertArrayEquals(expectedLast, manager.findLast());
+    }
 
     @Test
     public void testAddSingleMovie() {
         PosterManager manager = new PosterManager();
         manager.addMovie("Inception");
 
-        assertEquals(1, manager.getMoviesCount());
-        String[] allMovies = manager.findAll();
-        assertEquals("Inception", allMovies[0]);
-    }
+        String[] expectedAll = {"Inception"};
+        String[] expectedLast = {"Inception"};
 
+        assertArrayEquals(expectedAll, manager.findAll());
+        assertArrayEquals(expectedLast, manager.findLast());
+    }
 
     @Test
     public void testAddMultipleMovies() {
@@ -41,33 +44,28 @@ public class PosterManagerTest {
         manager.addMovie("The Matrix");
         manager.addMovie("Interstellar");
 
-        assertEquals(3, manager.getMoviesCount());
-        String[] allMovies = manager.findAll();
-        assertEquals("Inception", allMovies[0]);
-        assertEquals("The Matrix", allMovies[1]);
-        assertEquals("Interstellar", allMovies[2]);
-    }
+        String[] expectedAll = {"Inception", "The Matrix", "Interstellar"};
+        String[] expectedLast = {"Interstellar", "The Matrix", "Inception"};
 
+        assertArrayEquals(expectedAll, manager.findAll());
+        assertArrayEquals(expectedLast, manager.findLast());
+    }
 
     @Test
     public void testFindAllWhenEmpty() {
         PosterManager manager = new PosterManager();
 
-        String[] result = manager.findAll();
-
-        assertEquals(0, result.length);
+        String[] expected = {};
+        assertArrayEquals(expected, manager.findAll());
     }
-
 
     @Test
     public void testFindLastWhenEmpty() {
         PosterManager manager = new PosterManager();
 
-        String[] result = manager.findLast();
-
-        assertEquals(0, result.length);
+        String[] expected = {};
+        assertArrayEquals(expected, manager.findLast());
     }
-
 
     @Test
     public void testFindLastWhenLessThanLimit() {
@@ -75,13 +73,9 @@ public class PosterManagerTest {
         manager.addMovie("Movie1");
         manager.addMovie("Movie2");
 
-        String[] result = manager.findLast();
-
-        assertEquals(2, result.length);
-        assertEquals("Movie2", result[0]);
-        assertEquals("Movie1", result[1]);
+        String[] expected = {"Movie2", "Movie1"};
+        assertArrayEquals(expected, manager.findLast());
     }
-
 
     @Test
     public void testFindLastWhenEqualToLimit() {
@@ -90,14 +84,9 @@ public class PosterManagerTest {
         manager.addMovie("Movie2");
         manager.addMovie("Movie3");
 
-        String[] result = manager.findLast();
-
-        assertEquals(3, result.length);
-        assertEquals("Movie3", result[0]);
-        assertEquals("Movie2", result[1]);
-        assertEquals("Movie1", result[2]);
+        String[] expected = {"Movie3", "Movie2", "Movie1"};
+        assertArrayEquals(expected, manager.findLast());
     }
-
 
     @Test
     public void testFindLastWhenMoreThanLimit() {
@@ -108,34 +97,21 @@ public class PosterManagerTest {
         manager.addMovie("Movie4");
         manager.addMovie("Movie5");
 
-        String[] result = manager.findLast();
-
-        assertEquals(3, result.length);
-        assertEquals("Movie5", result[0]);
-        assertEquals("Movie4", result[1]);
-        assertEquals("Movie3", result[2]);
+        String[] expected = {"Movie5", "Movie4", "Movie3"};
+        assertArrayEquals(expected, manager.findLast());
     }
-
 
     @Test
     public void testFindLastWithDefaultLimit() {
-        PosterManager manager = new PosterManager(); // лимит = 5
+        PosterManager manager = new PosterManager();
 
-        // Добавляем 7 фильмов
         for (int i = 1; i <= 7; i++) {
             manager.addMovie("Movie" + i);
         }
 
-        String[] result = manager.findLast();
-
-        assertEquals(5, result.length);
-        assertEquals("Movie7", result[0]);
-        assertEquals("Movie6", result[1]);
-        assertEquals("Movie5", result[2]);
-        assertEquals("Movie4", result[3]);
-        assertEquals("Movie3", result[4]);
+        String[] expected = {"Movie7", "Movie6", "Movie5", "Movie4", "Movie3"};
+        assertArrayEquals(expected, manager.findLast());
     }
-
 
     @Test
     public void testWithLargeNumberOfMovies() {
@@ -145,14 +121,10 @@ public class PosterManagerTest {
             manager.addMovie("Film" + i);
         }
 
-        String[] lastMovies = manager.findLast();
-        String[] allMovies = manager.findAll();
+        String[] expectedAll = {"Film1", "Film2", "Film3", "Film4", "Film5", "Film6", "Film7", "Film8", "Film9", "Film10", "Film11", "Film12", "Film13", "Film14", "Film15"};
+        String[] expectedLast = {"Film15", "Film14", "Film13", "Film12", "Film11", "Film10", "Film9", "Film8", "Film7", "Film6"};
 
-        assertEquals(10, lastMovies.length);
-        assertEquals(15, allMovies.length);
-        assertEquals("Film15", lastMovies[0]);
-        assertEquals("Film6", lastMovies[9]);
-        assertEquals("Film1", allMovies[0]);
-        assertEquals("Film15", allMovies[14]);
+        assertArrayEquals(expectedAll, manager.findAll());
+        assertArrayEquals(expectedLast, manager.findLast());
     }
 }
